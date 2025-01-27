@@ -19,7 +19,7 @@ jobs:
       - name: Setup random commit script
         run: |
           echo '#!/bin/bash' > random_commit.sh
-          echo 'RANDOM_PROB=$(( RANDOM % 7 ))' >> random_commit.sh     # 每日提交概率[0,6]
+          echo 'RANDOM_PROB=$(( RANDOM % 5 ))' >> random_commit.sh     # 每日提交概率[0,5]
           echo 'if [[ $RANDOM_PROB -ne 0 ]]; then' >> random_commit.sh
           echo '  RANDOM_NUM=$(( 1 + RANDOM % 3 ))' >> random_commit.sh  # 每次提交数目[1,3]
           echo '  for i in $(seq 1 $RANDOM_NUM); do' >> random_commit.sh
@@ -30,8 +30,13 @@ jobs:
 
       - name: Auto commit with random number
         run: |
+        main
           git config --local user.email "75026738+Lyc0430@users.noreply.github.com" 
           git config --local user.name "Lyc0430"
+
+          git config --local user.email "ikunycj@users.noreply.github.com" 
+          git config --local user.name "ikunycj"
+        main
           git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git pull --rebase
           ./random_commit.sh
